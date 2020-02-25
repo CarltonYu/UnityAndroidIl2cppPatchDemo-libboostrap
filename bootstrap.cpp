@@ -39,7 +39,32 @@ JNIEXPORT void JNICALL Java_io_github_noodle1983_Boostrap_init
 	jenv->ReleaseStringUTFChars(path, data_file_path);
 	MY_INFO("data file path:%s", g_data_file_path);
 	
+	// bootstrap();
+}
+
+__attribute__ ((visibility ("default")))
+JNIEXPORT void JNICALL Java_io_github_noodle1983_Boostrap_bootstrap
+  (JNIEnv * jenv, jclass cls)
+{	
 	bootstrap();
+}
+
+__attribute__ ((visibility ("default")))
+JNIEXPORT jstring JNICALL Java_io_github_noodle1983_Boostrap_getarchabi(JNIEnv * jenv, jclass cls)
+{
+	return jenv->NewStringUTF(get_arch_abi());
+}
+__attribute__ ((visibility ("default")))
+JNIEXPORT jstring JNICALL Java_io_github_noodle1983_Boostrap_usedatadir(JNIEnv * jenv, jclass cls, jstring dataPath, jstring apkPath)
+{
+	const char* data_path = jenv->GetStringUTFChars(dataPath, NULL); 
+	const char* apk_path = jenv->GetStringUTFChars(apkPath, NULL);
+
+	char* error = use_data_dir(data_path,apk_path);
+	
+	jenv->ReleaseStringUTFChars(dataPath, data_path);
+	jenv->ReleaseStringUTFChars(apkPath, apk_path);
+	return jenv->NewStringUTF(error);
 }
 
 static std::string get_bundle_id()
@@ -266,11 +291,11 @@ static bool extract_patch_info(const std::string& bundle_id, std::string& defaul
 	g_apk_ino = apk_stat.st_ino;
 		
 	//if we have newer apk file, then no need to load patch
-	if (apk_stat.st_mtime > user_stat.st_mtime){	
-		MY_ERROR("newer apk file:%s, no need to patch", apk_path);
-		unlink(patch_info_path);
-		return false;
-	}
+	// if (apk_stat.st_mtime > user_stat.st_mtime){	
+	// 	MY_ERROR("newer apk file:%s, no need to patch", apk_path);
+	// 	unlink(patch_info_path);
+	// 	return false;
+	// }
 	
 	if (!pre_process_all_so_lib(data_path, bundle_id))
 	{

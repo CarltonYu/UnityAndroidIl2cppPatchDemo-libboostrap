@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT void JNICALL Java_io_github_noodle1983_Boostrap_init
   (JNIEnv *, jclass, jstring);
 
+JNIEXPORT jstring JNICALL Java_io_github_noodle1983_Boostrap_getarchabi
+  (JNIEnv *, jclass);
+
+JNIEXPORT jstring JNICALL Java_io_github_noodle1983_Boostrap_usedatadir
+  (JNIEnv *, jclass, jstring, jstring);
+
+JNIEXPORT void JNICALL Java_io_github_noodle1983_Boostrap_bootstrap
+  (JNIEnv *, jclass);
 #ifdef __cplusplus
 }
 #endif
