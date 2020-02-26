@@ -22,7 +22,7 @@ JNIEXPORT jstring JNICALL Java_io_github_noodle1983_Boostrap_usedatadir
   (JNIEnv *, jclass, jstring, jstring);
 
 JNIEXPORT void JNICALL Java_io_github_noodle1983_Boostrap_bootstrap
-  (JNIEnv *, jclass);
+  (JNIEnv *, jclass, jboolean);
 #ifdef __cplusplus
 }
 #endif

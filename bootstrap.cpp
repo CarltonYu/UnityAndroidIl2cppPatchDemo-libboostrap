@@ -27,7 +27,7 @@ static inline char * dupstr(const char* const str)
 const char* SPLITER = ";";
 const char* g_data_file_path = NULL;
 const char* g_apk_file_path = NULL;
-static void bootstrap();
+static void bootstrap(bool usepatch);
 std::string get_apk_path(const std::string& bundle_id);
 
 __attribute__ ((visibility ("default")))
@@ -44,9 +44,10 @@ JNIEXPORT void JNICALL Java_io_github_noodle1983_Boostrap_init
 
 __attribute__ ((visibility ("default")))
 JNIEXPORT void JNICALL Java_io_github_noodle1983_Boostrap_bootstrap
-  (JNIEnv * jenv, jclass cls)
+  (JNIEnv * jenv, jclass cls, jboolean usepatch)
 {	
-	bootstrap();
+	jboolean tRet = true;
+	bootstrap(usepatch==tRet);
 }
 
 __attribute__ ((visibility ("default")))
@@ -825,8 +826,10 @@ static int init_art_hook()
 }
 
 
-static void bootstrap()
+static void bootstrap(bool usepatch)
 {
+	if(usepatch == false)
+		return;
 	std::string bundle_id = get_bundle_id();
 	
 	std::string default_il2cpp_path;
